@@ -46,9 +46,9 @@ export default {
 
     },
     methods: {
-        SearchBook: function (searchvalue, categoryid) {
+        SearchBook: function (searchvalue) {
             this.search = searchvalue;
-            this.categoryid = categoryid;
+            
         },
         async DeleteBook(bookid) {
             await axios.delete(this.$apiUrl + "book/" + bookid);

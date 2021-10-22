@@ -112,6 +112,8 @@ export default {
 
             if (confirm("Do you want to save?")) {
                 //Save Edited Book
+                await axios.put(this.$apiUrl + "book/" + this.$route.params.bookid,this.book);
+                await this.$$router.push('/');
 
                
 
@@ -128,8 +130,7 @@ export default {
     async mounted() {
         const response = await axios.get(this.$apiUrl + "book/" + this.$route.params.bookid);
         this.book = await response.data.data[0];
-        var d = new Date(this.book.publishedDate);
-        this.book.publishedDate = d;
+        
 
     },
 }

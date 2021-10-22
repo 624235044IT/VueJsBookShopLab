@@ -5,7 +5,7 @@
         <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
             <div class="row">
                 <div class="navbar col-4">
-                    <img src="./assets/nii.jpg" class="rounded mx-auto d-block" width="80px" />
+                    <img src="./assets/csbookshoplogo.png" class="rounded mx-auto d-block" width="80px" />
                 </div>
                 <div class="navbar col text-left">
                     <span class="navbar-brand">IT<br />Book Shop</span>
