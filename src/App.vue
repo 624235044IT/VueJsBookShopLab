@@ -21,7 +21,7 @@
                     <router-link class="nav-link" to="/">Books <span class="sr-only">(current)</span></router-link> |
                 </li>
                 <li class="nav-item">
-                    <router-link class="nav-link" to="/authors">Authors</router-link>
+                    <router-link class="nav-link" to="/student">Student</router-link>
                 </li>
                 <li class="nav-item">
                     <router-link class="nav-link" to="/publishers">Publishers</router-link>
