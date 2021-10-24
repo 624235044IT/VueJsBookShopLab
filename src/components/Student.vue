@@ -30,7 +30,7 @@ export default {
         return {
             search: "",
             student: [],
-            //studentsearch: []
+            studentsearch: []
         }
     },
     async created() {
@@ -59,7 +59,7 @@ export default {
         StudentInSearch: function () {
             if (this.search != "") {
                 return this.student.filter((student) => {
-                    return student.studentId(this.search)
+                    return student.studentId.toString().includes(this.search.toString())
                 });
 
             } else {

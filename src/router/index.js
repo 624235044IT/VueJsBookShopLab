@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Books from '../components/Books.vue'
 import BookAddNew from '../components/BookAddNew.vue'
 import BookEdit from '../components/BookEdit.vue'
-import Students from '../components/Student.vue'
+import Student from '../components/Student.vue'
 import StudentAddNew from '../components/StudentAddNew.vue'
 import StudentEdit from '../components/StudentEdit.vue'
 
@@ -31,9 +31,9 @@ const routes = [
     component: BookEdit
   },  
   {
-    path: '/students',
-    name: 'Students',
-    component: Students
+    path: '/student',
+    name: 'Student',
+    component: Student
   },
   {
     path: '/addstudent',

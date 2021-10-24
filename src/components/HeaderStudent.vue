@@ -29,7 +29,7 @@
 
 <script>
 export default {
-    name: "Header",
+    name: "HeaderStudent",
     methods: {
         SearchStudent() {
             this.$emit('search:studentId', this.search);

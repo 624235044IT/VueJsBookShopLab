@@ -8,23 +8,18 @@
                 <img v-bind:src="student.thumbnailUrl" width="200px" /><br />
             </div>
             <div class="col-lg-8">
-
-                <div class="row">
-                    <div>
-                        <h2>{{student.title}}</h2>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-2 d-flex justify-content-start"><b>studentId:</b></div>
-                    <div>{{student.studentId}}</div>
+                    <div><br/>{{student.studentId}}</div>
                 </div>
                 <div class="row">
                     <div class="col-2 d-flex justify-content-start"><b>studentName:</b></div>
-                    <div>{{Student.studentName}}</div>
+                    <div><br/>{{student.studentName}}</div>
                 </div>
              
                 
                 <button class="btn btn-primary btn-sm" v-on:click="EditStudent(Student.studentId)" >Edit Student</button>&nbsp;
+                <br/><br/>
                 <button class="btn btn-danger btn-sm" v-on:click="DeleteStudent(Student.studentId)"> Delete student</button>
                 <br />
             </div>
