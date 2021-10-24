@@ -35,7 +35,7 @@ export default {
     props: ["student"],
     methods: {
         EditStudent(studentId) {
-            console.log(studentId);
+            
             
             this.$router.push('/editstudent/' + studentId)
         },

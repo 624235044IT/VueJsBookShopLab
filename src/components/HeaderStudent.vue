@@ -11,7 +11,7 @@
         <div class="navbar-nav mx-auto  justify-content-center w-50 order-1">
             <form class="form-inline">
 
-                <input v-model="search" v-on:keydown.enter.prevent="SearchStudent" class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search" />
+                <input v-model="search" v-on:keydown.enter.prevent="SearchBook" class="form-control mr-sm-2 " type="search" placeholder="Search" aria-label="Search" />
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="button" v-on:click="SearchStudent">Search</button>&nbsp;&nbsp;
                 <button class="btn btn-outline-success my-2 my-sm-0" type="button" v-on:click="ClearSearch">Clear</button>&nbsp;&nbsp;
 
@@ -32,7 +32,7 @@ export default {
     name: "HeaderStudent",
     methods: {
         SearchStudent() {
-            this.$emit('search:studentId', this.search);
+            this.$emit('search:studetId', this.search);
 
         },
         ClearSearch() {
