@@ -62,6 +62,7 @@
                     <input type="number" v-model="book.pageCount" class="form-control" id="page" placeholder="Enter Pages" name="page">
                 </div>
             </div>
+    
             <div class="col-3">
                 <div class="form-group">
                     <label for="ISBN">ISBN:</label>
@@ -70,11 +71,18 @@
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    <!--  publishedDate   -->
-
+                  <label for="page">publishedDate:</label>
+                    <vc-date-picker v-model="book.publishedDate" mode="date" id="publishedDate" name="publishedDate" />
                 </div>
             </div>
         </div>
+         <div class="col-2">
+                <div class="form-group">
+                    <label for="page">Upload Image:</label>
+                    <UploadImage id="bookimage" name="bookimage" ref="bookimage" /><br>
+                    <img v-bind:src="require(`@/assets/bookImages/`+ book.thumbnailUrl)" width="200px" /><br />
+                </div>
+            </div>
         <div class="form-group row">
             <div class="col">
                 <div class="form-group">
@@ -96,9 +104,12 @@
 <script>
 
 import axios from "axios";
+import moment from 'moment';
+import UploadImage from './UploadImage.vue';
 export default {
     name: "BookEdit",
     components: {
+        UploadImage 
 
     },
     props: ['bookid'],
@@ -111,9 +122,17 @@ export default {
         async SaveBook() {
 
             if (confirm("Do you want to save?")) {
-                //Save Edited Book
+
+                this.book.publishedDate = moment(String(this.book.publishedDate)).format('YYY-MM-DD');
+                let bookimage = await this.$refs.bookimage.getFileName()
+
+                if (await bookimage !== "") {
+                    this.book.thumbnailUrl = await bookimage
+                    await this.$refs.bookimage.UploadImage();
+                }
+               
                 await axios.put(this.$apiUrl + "book/" + this.$route.params.bookid,this.book);
-                await this.$$router.push('/');
+                await this.$router.push('/');
 
                
 
