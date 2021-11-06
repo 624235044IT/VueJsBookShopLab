@@ -6,6 +6,7 @@ import BookEdit from '../components/BookEdit.vue'
 import Student from '../components/Student.vue'
 import StudentAddNew from '../components/StudentAddNew.vue'
 import StudentEdit from '../components/StudentEdit.vue'
+import Login from '../components/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -13,12 +14,22 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Books
+    component: Login,
   },
   {
     path: '/books',
     name: 'Books',
     component: Books
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '*',
+    name: 'NotFound',
+    component: Login    
   },
   {
     path: '/addbook',

@@ -16,15 +16,14 @@
                     <input type="text" v-model="book.title" class="form-control" id="title" placeholder="Enter Book Title" name="title">
                 </div>
             </div>
-
-        </div>
-        <div class="form-group row">
-            <div class="col-4">
+            <div class="col">
                 <div class="form-group">
                     <label for="author">Author:</label>
                     <input type="text" v-model="book.author" class="form-control" id="author" placeholder="Enter Author" name="author">
                 </div>
             </div>
+        </div>
+        <div class="form-group row">
             <div class="col-4">
                 <div class="form-group">
                     <label for="category">Category:</label>
@@ -42,47 +41,37 @@
             </div>
             <div class="col-3">
                 <div class="form-group">
-
-                    <!--  UploadImage   -->
-
+                    <label for="ISBN">ISBN:</label>
+                    <input type="text" v-model="book.isbn" class="form-control" id="ISBN" placeholder="Enter ISBN" name="ISBN">
                 </div>
             </div>
-
-        </div>
-        <div class="form-group row">
-            <div class="col-2">
+            <div class="col">
                 <div class="form-group">
                     <label for="price">Price:</label>
                     <input type="number" v-model="book.price" class="form-control" id="price" placeholder="Enter Price" name="price">
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col">
                 <div class="form-group">
                     <label for="page">Pages:</label>
                     <input type="number" v-model="book.pageCount" class="form-control" id="page" placeholder="Enter Pages" name="page">
                 </div>
             </div>
-    
-            <div class="col-3">
+        </div>
+        <div class="form-group row">
+            <div class="col">
                 <div class="form-group">
-                    <label for="ISBN">ISBN:</label>
-                    <input type="text" v-model="book.isbn" class="form-control" id="ISBN" placeholder="Enter ISBN" name="ISBN">
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="form-group">
-                  <label for="page">publishedDate:</label>
+                    <label for="publishedDate">Published Date:</label>
                     <vc-date-picker v-model="book.publishedDate" mode="date" id="publishedDate" name="publishedDate" />
                 </div>
             </div>
-        </div>
-         <div class="col-2">
+            <div class="col">
                 <div class="form-group">
-                    <label for="page">Upload Image:</label>
+                    <label for="bookimage">Upload Image:</label>
                     <UploadImage id="bookimage" name="bookimage" ref="bookimage" /><br>
-                    <img v-bind:src="require(`@/assets/bookImages/`+ book.thumbnailUrl)" width="200px" /><br />
                 </div>
             </div>
+        </div>
         <div class="form-group row">
             <div class="col">
                 <div class="form-group">
@@ -97,25 +86,23 @@
         <button class="btn btn-danger" v-on:click="Cancel()">Cancel</button>
 
     </div>
-    <br /><br /><br /><br />
+    <br /><br />
 </div>
 </template>
 
 <script>
-
+import UploadImage from './UploadImage.vue';
 import axios from "axios";
 import moment from 'moment';
-import UploadImage from './UploadImage.vue';
 export default {
     name: "BookEdit",
-    components: {
-        UploadImage 
-
-    },
-    props: ['bookid'],
+    components:{
+        UploadImage
+        },
     data() {
         return {
-            book: {}
+            book: {},
+            AccessToken:""
         }
     },
     methods: {
@@ -123,36 +110,43 @@ export default {
 
             if (confirm("Do you want to save?")) {
 
-                this.book.publishedDate = moment(String(this.book.publishedDate)).format('YYY-MM-DD');
-                
+                this.book.publishedDate = moment(String(this.book.publishedDate)).format('YYYY-MM-DD');
                 let bookimage = await this.$refs.bookimage.getFileName()
 
                 if (await bookimage !== "") {
                     this.book.thumbnailUrl = await bookimage
                     await this.$refs.bookimage.UploadImage();
                 }
-               
-               
-                await axios.put(this.$apiUrl + "book/" + this.$route.params.bookid,this.book);
-                await this.$router.push('/');
-
-               
-
+                
+                await axios.put(this.$apiUrl + "book/" + this.$route.params.bookid,this.book,{ headers: {"Authorization" : `bearer ${this.accessToken}`} });
+                await this.$router.push('/books'); 
             }
 
         },
         Cancel() {
             if (confirm("Do you want to cancel editing this book?")) {
-                this.$router.push('/');
+                this.$router.push('/books');
             }
 
         }
     },
     async mounted() {
-        const response = await axios.get(this.$apiUrl + "book/" + this.$route.params.bookid);
-        this.book = await response.data.data[0];
-        
 
+    this.accessToken = await localStorage.getItem("accessToken");
+
+    if (await this.accessToken) {
+       try {
+            //Code for get book detail from API
+            const response = await axios.get(this.$apiUrl + "book/" + this.$route.params.bookid,{ headers: {"Authorization" : `bearer ${this.accessToken}`} });
+            this.book = await response.data.data[0];
+      } catch {
+        this.$router.push("/login");
+      }
+    } else {
+      this.$router.push("/login");
+    }
+
+        
     },
 }
 </script>
