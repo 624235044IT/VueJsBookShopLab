@@ -124,12 +124,14 @@ export default {
             if (confirm("Do you want to save?")) {
 
                 this.book.publishedDate = moment(String(this.book.publishedDate)).format('YYY-MM-DD');
+                
                 let bookimage = await this.$refs.bookimage.getFileName()
 
                 if (await bookimage !== "") {
                     this.book.thumbnailUrl = await bookimage
                     await this.$refs.bookimage.UploadImage();
                 }
+               
                
                 await axios.put(this.$apiUrl + "book/" + this.$route.params.bookid,this.book);
                 await this.$router.push('/');
