@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Books from '../components/Books.vue'
 import BookAddNew from '../components/BookAddNew.vue'
 import BookEdit from '../components/BookEdit.vue'
-import Student from '../components/Student.vue'
+import Students from '../components/Student.vue'
 import StudentAddNew from '../components/StudentAddNew.vue'
 import StudentEdit from '../components/StudentEdit.vue'
 import Login from '../components/Login.vue'
@@ -17,19 +17,14 @@ const routes = [
     component: Login,
   },
   {
-    path: '/books',
-    name: 'Books',
-    component: Books
-  },
-  {
     path: '/login',
     name: 'Login',
     component: Login
   },
   {
-    path: '*',
-    name: 'NotFound',
-    component: Login    
+    path: '/books',
+    name: 'Books',
+    component: Books
   },
   {
     path: '/addbook',
@@ -42,9 +37,9 @@ const routes = [
     component: BookEdit
   },  
   {
-    path: '/student',
-    name: 'Student',
-    component: Student
+    path: '/students',
+    name: 'Students',
+    component: Students
   },
   {
     path: '/addstudent',
@@ -52,10 +47,15 @@ const routes = [
     component: StudentAddNew
   }, 
   {
-    path: '/editstudent/:studentId',
+    path: '/editstudent/:number',
     name: 'EditStudent',
     component: StudentEdit
   },  
+  {
+    path: '*',
+    name: 'NotFound',
+    component: Login    
+  },
   {
     path: '/about',
     name: 'About',

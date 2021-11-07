@@ -46,9 +46,11 @@ export default {
     },
     methods: {
         async SaveStudent() {
+            if (confirm("Do you want to save  this book?")){
             
             await axios.post(this.$apiUrl + "student", this.student);
             await this.$router.push('/student');
+            }
         
 
         },
@@ -60,7 +62,25 @@ export default {
             }
 
         }
+    },
+    async mounted() {
+
+    this.accessToken = await localStorage.getItem("accessToken");
+
+    if (await this.accessToken) {
+       try {
+            //Code for get book detail from API
+            const response = await axios.get(this.$apiUrl + "student/" + this.$route.params.studentId,{ headers: {"Authorization" : `bearer ${this.accessToken}`} });
+            this.student = await response.data.data[0];
+      } catch {
+        this.$router.push("/login");
+      }
+    } else {
+      this.$router.push("/login");
     }
+
+        
+    },
 }
 </script>
 

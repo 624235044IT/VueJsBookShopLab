@@ -129,8 +129,8 @@ export default {
                 }
                
                 
-               await axios.post(this.$apiUrl + "book",this.book);
-               await this.$router.push('/');
+               await axios.post(this.$apiUrl + "book",this.book,{ headers: {"Authorization" : `bearer ${this.accessToken}`} });
+               await this.$router.push('/books');
                 
 
             }
@@ -140,12 +140,30 @@ export default {
         Cancel() {
             if (confirm("Do you want to cancel adding this book?")) {
 
-                this.$router.push('/');
+                this.$router.push('/books');
 
             }
 
         }
+    },
+    async mounted() {
+
+    this.accessToken = await localStorage.getItem("accessToken");
+
+    if (await this.accessToken) {
+       try {
+            //Code for get book detail from API
+            const response = await axios.get(this.$apiUrl + "book/" + this.$route.params.bookid,{ headers: {"Authorization" : `bearer ${this.accessToken}`} });
+            this.book = await response.data.data[0];
+      } catch {
+        this.$router.push("/login");
+      }
+    } else {
+      this.$router.push("/login");
     }
+
+        
+    },
 }
 </script>
 

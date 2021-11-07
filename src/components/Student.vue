@@ -30,16 +30,27 @@ export default {
         return {
             search: "",
             student: [],
-            studentsearch: []
+            //studentsearch: []
         }
     },
     async created() {
 
     },
     async mounted() {
+        let accessToken = await localStorage.getItem("accessToken");
+
+    if (await accessToken) {
+      try {
         //Code for GET students from API
-        const response = await axios.get(this.$apiUrl + "student");
+        const response = await axios.get(this.$apiUrl + "student",{ headers: {"Authorization" : `bearer ${accessToken}`} });
         this.student = await response.data.data;
+        //this.booksearch = this.books
+      } catch {
+        this.$router.push("/");
+      }
+    } else {
+      this.$router.push("/");
+    }
         
     },
     methods: {
@@ -47,10 +58,22 @@ export default {
             this.search = searchvalue;
         },
         async DeleteStudent(studentId) {
+
+        let accessToken = await localStorage.getItem("accessToken");
+
+           if (await accessToken) {
+               try{
+
              await axios.delete(this.$apiUrl + "student/" + studentId);
              var studentIndex=this.student.findIndex(x => x.studentId === studentId);
              this.student.splice(studentIndex, 1);
              this.studentsearch = this.student;
+        }catch{
+            this.$router.push("/");
+        }
+           }else{
+              this.$router.push("/"); 
+           }
         },
 
     },
@@ -65,13 +88,11 @@ export default {
             } else {
                 return this.student;
             }
-        }
+        },
 
     },
-    filters: {
-
-    }
-}
+    filters: {},
+};
 </script>
 
 <style>

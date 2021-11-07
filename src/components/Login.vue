@@ -53,9 +53,9 @@ export default {
 
         async Login() {          
             
-            let user={"username":this.username,"password":this.password}
+            let users={"username":this.username,"password":this.password}
 
-            let result = await axios.post(this.$apiUrl + "auth/signin", user)
+            let result = await axios.post(this.$apiUrl + "auth/signin", users)
                 .catch(function(error) {
                     if (error.response && error.response.status === 401) {
                        console.log(error.response)
