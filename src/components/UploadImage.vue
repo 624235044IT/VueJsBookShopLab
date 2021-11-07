@@ -22,7 +22,8 @@ export default {
     data() {
         return {
             file:"",
-            message:""
+            message:"",
+            AccessToken:""
 
         }
     },
@@ -61,6 +62,7 @@ export default {
             if (this.file !== "") {
 
                 //Create Data Form and append file
+
                 const file = this.$refs.file.files[0]
                 const formData = new FormData()
                 formData.append('file', file)

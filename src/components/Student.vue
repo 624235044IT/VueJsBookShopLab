@@ -30,8 +30,8 @@ export default {
         return {
             search: "",
             student: [],
-            //studentsearch: []
-        }
+            studentsearch: [],
+        };
     },
     async created() {
 
@@ -46,10 +46,10 @@ export default {
         this.student = await response.data.data;
         //this.booksearch = this.books
       } catch {
-        this.$router.push("/");
+        this.$router.push("/login");
       }
     } else {
-      this.$router.push("/");
+      this.$router.push("/login");
     }
         
     },
@@ -69,10 +69,10 @@ export default {
              this.student.splice(studentIndex, 1);
              this.studentsearch = this.student;
         }catch{
-            this.$router.push("/");
+            this.$router.push("/login");
         }
            }else{
-              this.$router.push("/"); 
+              this.$router.push("/login"); 
            }
         },
 

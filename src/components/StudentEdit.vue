@@ -81,7 +81,7 @@ export default {
       try {
         //Code for get book detail from API
         const response = await axios.get(
-          this.$apiUrl + "/student" + this.$route.body.studentId
+          this.$apiUrl + "student/" + this.$route.params.studentId,{ headers: {"Authorization" : `bearer ${this.accessToken}`} }
         );
         this.student = await response.data.data[0];
       } catch {

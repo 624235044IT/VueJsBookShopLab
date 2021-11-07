@@ -63,7 +63,6 @@
                 <div class="form-group">
                     <label for="publishedDate">Published Date:</label>
                     <vc-date-picker v-model="book.publishedDate" mode="date" id="publishedDate" name="publishedDate" />
-                    
                 </div>
             </div>
             <div class="col">
@@ -92,14 +91,14 @@
 </template>
 
 <script>
+import UploadImage from './UploadImage.vue';
 import axios from "axios";
 import moment from 'moment';
-import UploadImage from './UploadImage.vue';
 export default {
     name: "BookAddNew",
-    components: {
+    components:{
         UploadImage
-    },
+        },
     data() {
         return {
             book: {
@@ -108,33 +107,32 @@ export default {
                 isbn: "",
                 pageCount: 1,
                 publishedDate: "1997-12-01T00:00:00.000-0800",
-                thumbnailUrl: "unavailable.jpg",
+                thumbnailUrl: "https://raw.githubusercontent.com/kesinee-bo/sp01/master/unavailable.jpg",
                 shortDescription: "",
                 author: "",
                 category: ""
-            }
+            },
+            
         }
     },
     methods: {
         async SaveBook() {
-             if (confirm("Do you want to save  this book?")) {
+        
+            if (confirm("Do you want to save this book?")) {
 
-                 this.book.publishedDate = moment(String(this.book.publishedDate)).format('YYY-MM-DD');
 
-                 let bookimage = await this.$refs.bookimage.getFileName()
+                this.book.publishedDate = moment(String(this.book.publishedDate)).format('YYYY-MM-DD');
+                let bookimage = await this.$refs.bookimage.getFileName()
 
                 if (await bookimage !== "") {
                     this.book.thumbnailUrl = await bookimage
                     await this.$refs.bookimage.UploadImage();
                 }
-               
-                
-               await axios.post(this.$apiUrl + "book",this.book,{ headers: {"Authorization" : `bearer ${this.accessToken}`} });
-               await this.$router.push('/books');
-                
 
+                this.accessToken = await localStorage.getItem("accessToken");
+                await axios.post(this.$apiUrl + "book",this.book,{ headers: {"Authorization" : `bearer ${this.accessToken}`} });
+                await this.$router.push('/books');
             }
-           
 
         },
         Cancel() {
@@ -145,25 +143,7 @@ export default {
             }
 
         }
-    },
-    async mounted() {
-
-    this.accessToken = await localStorage.getItem("accessToken");
-
-    if (await this.accessToken) {
-       try {
-            //Code for get book detail from API
-            const response = await axios.get(this.$apiUrl + "book/" + this.$route.params.bookid,{ headers: {"Authorization" : `bearer ${this.accessToken}`} });
-            this.book = await response.data.data[0];
-      } catch {
-        this.$router.push("/login");
-      }
-    } else {
-      this.$router.push("/login");
     }
-
-        
-    },
 }
 </script>
 
